@@ -9,7 +9,7 @@ while [ $i -le 10 ];do
     then
 	 echo "good luck";
     else
-	echo "Holberton School";
+	echo "Best School";
     fi
     let "i+=1";
 done
