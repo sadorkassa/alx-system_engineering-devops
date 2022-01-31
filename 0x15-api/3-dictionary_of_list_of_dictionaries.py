@@ -1,31 +1,19 @@
 #!/usr/bin/python3
+"""Queries information from the JSON placeholder API.
+   Exports todo list information of all employees to json file.
 """
-extend your Python script to export data in the JSON format
-"""
-
 import json
 import requests
 
-if __name__ == '__main__':
-    users = requests.get("http://jsonplaceholder.typicode.com/users",
-                         verify=False).json()
-    userdict = {}
-    usernamedict = {}
-    for user in users:
-        uid = user.get("id")
-        userdict[uid] = []
-        usernamedict[uid] = user.get("username")
-    todo = requests.get("http://jsonplaceholder.typicode.com/todos",
-                        verify=False).json()
 
-    for task in todo:
-        taskdict = {
-            "task": task.get('title'),
-            "completed": task.get('completed'),
-            "username": usernamedict.get(uid)
-        }
-        uid = task.get("userId")
-
-        userdict.get(uid).append(taskdict)
-    with open("todo_all_employees.json", 'w') as jsonfile:
-        json.dump(userdict, jsonfile)
+if __name__ == "__main__":
+    url = 'https://jsonplaceholder.typicode.com/'
+    users = requests.get(url + "users").json()
+    with open("todo_all_employees.json", "w") as json_file:
+        json.dump({user.get("id"): [{
+            "task": todo.get("title"),
+            "completed": todo.get("completed"),
+            "username": user.get("username")
+        }for todo in requests.get(url + "todos",
+                                  params={"userId": user.get("id")}
+                                  ).json()]for user in users}, json_file)
