@@ -1,7 +1,7 @@
 server {
     listen 80 default_server;
     listen [::]:80 default_server ipv6only=on;
-    server_name 34.73.36.236;
+    server_name 35.227.20.159;
     
     location = /airbnb-onepage/ {
         include proxy_params;
